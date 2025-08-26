@@ -13,7 +13,10 @@ public class Order {
         this.date = LocalDateTime.now();
     }
 
-    public void addItem(Product prod, int quantity) {
+    public void addItem(Product prod, int quantity) throws InsufficientStockException {
+        if (prod.getStock() < quantity) {
+            throw new InsufficientStockException("Not enough stock for " + prod.getName());
+        }
         items.add(new OrderItem(prod, quantity));
         prod.cutStock(quantity);
     }
